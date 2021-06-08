@@ -115,12 +115,10 @@ export class ActivityAdminDetailComponent implements OnInit {
     this.saveOrUpdate();
   }
 
-  // Se guarda una nueva actividad
-  public save (){
+  public saveNewActivity (){
     const idLoggedUser = this.userState$.user?.id;
     let _activities$;
     this.store.select('activities').subscribe(activities => _activities$ = activities.activity);
-    // Persona que ha creado la solicitud
     this.activity.idUser = idLoggedUser;
     const _activity = PublicFunctions.fakeIncreaseId <Activity>(_activities$, this.activity);
     this.store.dispatch(ActivitiesAction.createActivity({activity: _activity}));
@@ -136,7 +134,7 @@ export class ActivityAdminDetailComponent implements OnInit {
 
   saveOrUpdate(){
     // Se invoca la función save o update en función de la respuesta de isNew
-    this.isNew() ? this.save () : this.update ();
+    this.isNew() ? this.saveNewActivity () : this.update ();
   }
 
   // Función que devuelve existe el campo id en el objeto activity
