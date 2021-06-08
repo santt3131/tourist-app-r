@@ -134,18 +134,14 @@ export class ProfileComponent implements OnInit {
 
   // Se recoge la pulsación sobre el botón de borrar educación
   onClickDeleteEducation(educationId: any): void {
-    // Se solicita confirmación de eliminación
     if (confirm('Are you sure to delete this education?')) {
       const educations = this.user.educations;
       const index = this.user.educations.findIndex(education => education.uid === educationId);
       if (index === -1)
       {
-        alert('Error education not found');
-        return;
+        throw new Error('Error education not found');
       }
-      // Se elimina la educación de la colección
       educations.splice(index, 1);
-      // Se actualiza el usuario
       this.store.dispatch(UserAction.deleteUserEducation({user: this.user}));
     }
   }
