@@ -64,13 +64,12 @@ export class ProfileLanguageComponent implements OnInit {
   }
 
   // En caso de creación de un nuevo lenguaje
-  public save (language: Language){
-    if (!this.userState$.user.languages.find(x => x.language === language.language))
-    {
+  public saveLanguage (language: Language){
+    const isNotInListLanguage = !this.userState$.user.languages.find(_ => {_.language === language.language;});
+    if(isNotInListLanguage){
       const user = this.userState$.user;
       const _language = PublicFunctions.fakeIncreaseUid <Language>(user.languages, language);
       user.languages.push(_language);
-      // Se actualiza el usuario
       this.store.dispatch(UserAction.addUserLanguage({user}));
     }
     else
@@ -91,7 +90,7 @@ export class ProfileLanguageComponent implements OnInit {
 
   saveOrUpdate(language: Language){
     // Se invoca la función save o update en función de la respuesta de isNew
-    this.isNew() ? this.save (language) : this.update(language);
+    this.isNew() ? this.saveLanguage(language) : this.update(language);
   }
 
   public isNew(): boolean {
